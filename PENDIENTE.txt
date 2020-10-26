@@ -1,0 +1,29 @@
+
+
+
+
+* Se debe pode eliminar multimedia por id, actualizar en el servicio que elimine el registro de la tabla multimedia
+ademas del archivo q ya lo hace.
+
+
+-------------------------------------------
+DONE
+Toke about 1 hour an a half
+
+* EN el on/off que escriba en la base de datos el estado de la pantalla.
+
+* Agregar a la base de datos el brillo. 
+--------------------------------------------
+
+
+-------------------------------------------
+DONE
+Toke about 2.30 minutes
+
+* add_screen, modify_screen, delete_screen, deben funcionar para la pantalla remota.
+
+--------------------------------------------
+
+* Separar mas el codigo en archivos y funciones. Más modular.
+
+*Agregar validadores, principalmente a la nueva funcion SendToRemote

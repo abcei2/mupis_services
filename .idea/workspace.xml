@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="screen-server:jar" />
+    </artifacts-to-build>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="9d721f42-11e1-474a-8654-4699171bd050" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/intertelco/screen/screenserver/controllers/ManagerImageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/intertelco/screen/screenserver/controllers/ManagerImageController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/intertelco/screen/screenserver/controllers/ScreenController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/intertelco/screen/screenserver/controllers/ScreenController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/intertelco/screen/screenserver/services/KafkaServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/intertelco/screen/screenserver/services/KafkaServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/intertelco/screen/screenserver/utils/ImageTool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/intertelco/screen/screenserver/utils/ImageTool.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/image/Captura de pantalla de 2018-11-14 07-46-37.png" beforeDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="screen-server" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="vmOptionsForImporter" value="-Xmx768m" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1Rk8Z6y1bKKHwudVmKkrnk4kJWy" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="restartRequiresConfirmation" value="false" />
+    <property name="settings.editor.selected.configurable" value="project.propCompiler" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.intertelco.screen.screenserver.jpa" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/com/intertelco/screen/screenserver" />
+      <recent name="$PROJECT_DIR$/src/main/resources" />
+      <recent name="$PROJECT_DIR$/src/main/java/com/intertelco/screen/screenserver/configurations" />
+      <recent name="$PROJECT_DIR$/src/main/java/com/intertelco/screen/screenserver/services" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.intertelco.screen.screenserver.configurations" />
+      <recent name="com.intertelco.screen.screenserver.models" />
+      <recent name="com.intertelco.screen.screenserver.services" />
+      <recent name="com.intertelco.screen.screenserver.utils" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/static" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.ScreenServerApplication">
+    <configuration name="screen-server [buildDependents]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="buildDependents" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="screen-server [dependencies]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="dependencies" />
+          </list>
+        </option>
+        <option name="vmOptions" value="" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="ScreenServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="screen-server.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.intertelco.screen.screenserver.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.intertelco.screen.screenserver.ScreenServerApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.ScreenServerApplication" />
+        <item itemvalue="Gradle.screen-server [dependencies]" />
+        <item itemvalue="Gradle.screen-server [buildDependents]" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpringBootOptions">
+    <option name="showAdditionalConfigNotification" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9d721f42-11e1-474a-8654-4699171bd050" name="Default Changelist" comment="" />
+      <created>1562084703124</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1562084703124</updated>
+      <workItem from="1562084705838" duration="6541000" />
+      <workItem from="1562093853176" duration="113000" />
+      <workItem from="1562093987194" duration="7146000" />
+      <workItem from="1562102189291" duration="5011000" />
+      <workItem from="1562168062147" duration="3636000" />
+      <workItem from="1562334280909" duration="1291000" />
+      <workItem from="1562336103965" duration="16232000" />
+      <workItem from="1562364596746" duration="2812000" />
+      <workItem from="1562588223080" duration="597000" />
+      <workItem from="1562590780545" duration="1680000" />
+      <workItem from="1562770549260" duration="599000" />
+      <workItem from="1562857985913" duration="2431000" />
+      <workItem from="1562875723741" duration="599000" />
+      <workItem from="1563192470340" duration="8035000" />
+      <workItem from="1563222802228" duration="2704000" />
+      <workItem from="1563279930536" duration="5103000" />
+      <workItem from="1563290250828" duration="940000" />
+      <workItem from="1570199787371" duration="8955000" />
+      <workItem from="1570457340033" duration="14665000" />
+      <workItem from="1570539705237" duration="19256000" />
+      <workItem from="1570626197621" duration="26074000" />
+      <workItem from="1570710532592" duration="3359000" />
+      <workItem from="1570722910499" duration="6799000" />
+      <workItem from="1571141974034" duration="29172000" />
+      <workItem from="1571228532704" duration="13917000" />
+      <workItem from="1571661508636" duration="21403000" />
+      <workItem from="1571746932372" duration="16039000" />
+      <workItem from="1572010724075" duration="14822000" />
+      <workItem from="1572035481008" duration="2627000" />
+      <workItem from="1572265807356" duration="14197000" />
+      <workItem from="1572527534857" duration="1650000" />
+      <workItem from="1572613416524" duration="655000" />
+      <workItem from="1572957336757" duration="1198000" />
+      <workItem from="1572959206794" duration="630000" />
+      <workItem from="1572960954604" duration="1786000" />
+      <workItem from="1572964089659" duration="855000" />
+      <workItem from="1572965968498" duration="1666000" />
+      <workItem from="1572969159386" duration="1793000" />
+      <workItem from="1572971159055" duration="1431000" />
+      <workItem from="1572972921788" duration="730000" />
+      <workItem from="1572977154194" duration="1813000" />
+      <workItem from="1572979097407" duration="378000" />
+      <workItem from="1572981909490" duration="550000" />
+      <workItem from="1573216241987" duration="581000" />
+      <workItem from="1573571845847" duration="1634000" />
+      <workItem from="1573573596432" duration="1827000" />
+      <workItem from="1573575625449" duration="1788000" />
+      <workItem from="1573577454667" duration="909000" />
+      <workItem from="1573582172198" duration="691000" />
+      <workItem from="1573584231218" duration="1230000" />
+      <workItem from="1573586067322" duration="948000" />
+      <workItem from="1573587701520" duration="1711000" />
+      <workItem from="1573589558275" duration="1776000" />
+      <workItem from="1573591912279" duration="684000" />
+      <workItem from="1573594746015" duration="601000" />
+    </task>
+    <task id="LOCAL-00001" summary="- Inicio del proyecto">
+      <created>1562085215477</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1562085215478</updated>
+    </task>
+    <task id="LOCAL-00002" summary="- Se agrega repo para almacenar los nodos conectados&#10;- Se configura el cliente kafka para gestion de mensajes.&#10;- Se crea endpoint de prueba para el envio de mensajes">
+      <created>1562092857894</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1562092857894</updated>
+    </task>
+    <task id="LOCAL-00003" summary="- Se agregan las funcionalidades para subir archivos&#10;- Se crea un endpoint de prueba para subir un archivo">
+      <created>1562094683170</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1562094683170</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list />
+          </value>
+        </entry>
+        <entry key="User">
+          <value>
+            <list />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="- Inicio del proyecto" />
+    <MESSAGE value="- Se agrega repo para almacenar los nodos conectados&#10;- Se configura el cliente kafka para gestion de mensajes.&#10;- Se crea endpoint de prueba para el envio de mensajes" />
+    <MESSAGE value="- Se agregan las funcionalidades para subir archivos&#10;- Se crea un endpoint de prueba para subir un archivo" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Se agregan las funcionalidades para subir archivos&#10;- Se crea un endpoint de prueba para subir un archivo" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/intertelco/screen/screenserver/controllers/ManagerImageController.java</url>
+          <line>36</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="gradleExecuteTaskHistory">
+    <option value="$PROJECT_DIR$" />
+    <option value="dependencies" />
+  </component>
+</project>
