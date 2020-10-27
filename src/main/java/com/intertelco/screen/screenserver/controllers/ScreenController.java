@@ -115,13 +115,12 @@ public class ScreenController {
       {
         String url="http://"+screen_ip+":"+Integer.toString(screen_params.getInt("service_port"))+
         "/rest/screens/clear_screen/"+remote_screen_id+"/0";
-
+        String response1=ServiceRestFull(url);
         System.out.println(url);
-        System.out.println(ServiceRestFull(url));
-        ServiceRestFull(url)
+        System.out.println(response1);
         Respuesta.put("state",200);
-        Respuesta.put("message", ServiceRestFull(url)));
-        return ServiceRestFull(url);
+        Respuesta.put("message", response1);
+        return response1;
       }
       else
       {
