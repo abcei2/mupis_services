@@ -158,14 +158,15 @@ public class ScreenController {
         if (screen_params.getBoolean("is_server_ip")) {
             String url="http://"+screen_ip+":"+Integer.toString(screen_params.getInt("service_port"))+
             "/rest/screens/turn_off_screen/"+remote_screen_id+"/0";
+            String response1=ServiceRestFull(url);
             System.out.println(url);
-            System.out.println(ServiceRestFull(url));
-            return "localhost";
+            System.out.println(response1);
+            return response1;
         } else {
-            TURN_OFF_SCREEN(screen_ip,screen_id);
-            System.out.println("TURN OFF");
+            String response1=TURN_OFF_SCREEN(screen_ip,screen_id);
+            System.out.println(response1);
+            return response1;
         }
-        return "OFF";
     }
     @CrossOrigin
     @GetMapping("/modify_server_screen_ports/{screen_id}/{server_port}/{db_port}")
@@ -411,6 +412,7 @@ public class ScreenController {
         Bx6GScreenClient screen = new Bx6GScreenClient("MyScreen", new Bx6Q());
         if (!screen.connect(ip_screen, 5005)) {
             System.out.println("\n\n\nconnect failed\n\n\n");
+            return "no_conection";
         } else {
 
             System.out.println("\n\n\nconnect stablished \n\n\n");
@@ -439,8 +441,8 @@ public class ScreenController {
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
                 System.exit(0);
             }
+            return "off";
         }
-        return "SCREEN_OFF";
     }
 
     private String TURN_ON_SCREEN(String ip_screen,int screen_id) throws Exception {
@@ -449,6 +451,7 @@ public class ScreenController {
         Bx6GScreenClient screen = new Bx6GScreenClient("MyScreen", new Bx6Q());
         if (!screen.connect(ip_screen, 5005)) {
             System.out.println("\n\n\nconnect failed\n\n\n");
+            return "no_conection";
         } else {
 
             System.out.println("\n\n\nconnect stablished \n\n\n");
@@ -477,9 +480,9 @@ public class ScreenController {
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
                 System.exit(0);
             }
+            return "on";
         }
         
-        return "SCREEN_ON";
     }
     @CrossOrigin
     @GetMapping("/send_image_to_remote/{multimedia_id}/{screen_id}")
@@ -521,7 +524,7 @@ public class ScreenController {
             JSONObject remote_screen_param = get_screen_params(-1,screen_params.getString("db_port"),true);
             if(remote_screen_param.has("ERROR")){
 
-                return "Can't connect with remotelly screen";
+                return "no_conection_to_remote";
             }
 
             JSONArray remote_media = remote_screen_param.getJSONArray("media");
@@ -560,7 +563,7 @@ public class ScreenController {
             e.printStackTrace();
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
-            return "there is an error";
+            return "internal_error";
         }
         
         
@@ -587,7 +590,7 @@ public class ScreenController {
         JSONObject screen_params = get_screen_params(screen_id,"5432",false);
 
         if(screen_params.getInt("estado")==1){
-            return "Screen is bussy";
+            return "bussy";
         }
         String screen_ip=screen_params.getString("ip");
         if(screen_params.getBoolean("is_server_ip")){
@@ -599,10 +602,10 @@ public class ScreenController {
             JSONObject remote_screen_param = get_screen_params(remote_screen_id,screen_params.getString("db_port"),true);
             if(remote_screen_param.has("ERROR")){
 
-                return "Can't connect with remotelly screen";
+                return "no_conection_remote";
             }
             if(remote_screen_param.getInt("estado")==1){
-                return "Remotelly screen services is bussy";
+                return "bussy_remote";
             }
 
             JSONArray remote_media = remote_screen_param.getJSONArray("media");
@@ -643,19 +646,22 @@ public class ScreenController {
             String url="http://localhost:"+Integer.toString(screen_params.getInt("service_port"))+
             "/rest/screens/send/"+nameImage+"/"+image_duration+"/"+type+"/"+program_id+
             "/"+remote_screen_id+"/"+multimedia_id+"/-1";
+            String response1=ServiceRestFull(url); 
             System.out.println(url);
-            System.out.println(ServiceRestFull(url));
+            System.out.println(response1);
 
-            return "now is free";
+            return response1;
         }
         else{
 
             if(screen_params.getInt("alto")>0 && screen_params.getInt("ancho")>0){
                 if(remote_screen_id==-1)
                     update("actualizar", "estado=1", -1, screen_params.getString("ip"));
-                else            
-                    update("actualizar", "estado=1", screen_id, screen_params.getString("ip"));
+                else   
+                    update("actualizar", "estado=1", -1, screen_params.getString("ip"));         
+                    // update("actualizar", "estado=1", screen_id, screen_params.getString("ip"));
                 String To_Return = "OK";
+                System.out.println(executeCommand("rm -r " + pathImage + "/TEMP"));
                 System.out.println(executeCommand("mkdir " + pathImage + "TEMP"));
                 if (type.equals("VIDEO")) {
                     image_duration = 1;
@@ -715,7 +721,8 @@ public class ScreenController {
                 if(remote_screen_id==-1)
                     update("actualizar", "estado=0", -1, screen_ip);
                 else            
-                    update("actualizar", "estado=0", screen_id, screen_ip);
+                    update("actualizar", "estado=0", -1, screen_ip);
+                // update("actualizar", "estado=0", -1, screen_ip);
 
                 return "connect failed";
             } else {
@@ -778,7 +785,7 @@ public class ScreenController {
 
                 @Override
                 public void cancel(Bx6GScreen bx6GScreen, String s, Bx6GException e) {
-                    System.out.println(executeCommand("rm -r " + pathImage + "/TEMP"));
+                   
                     add_media_progress( 0, multimedia_id, screen_id,program_id);
                 
                     System.out.println("CANCELED!");
@@ -788,7 +795,8 @@ public class ScreenController {
                     if(remote_screen_id==-1)
                         update("actualizar", "estado=0", -1, screen_ip);
                     else            
-                        update("actualizar", "estado=0", screen_id, screen_ip);
+                        update("actualizar", "estado=0", -1, screen_ip);
+                    // update("actualizar", "estado=0", screen_id, screen_ip);
                 }
 
                 @Override
@@ -802,9 +810,9 @@ public class ScreenController {
                     if(remote_screen_id==-1)
                         update("actualizar", "estado=0", -1, screen_ip);
                     else            
-                        update("actualizar", "estado=0", screen_id, screen_ip);
+                        update("actualizar", "estado=0", -1, screen_ip);
                         
-                    System.out.println(executeCommand("rm -r " + pathImage + "/TEMP"));
+                    // update("actualizar", "estado=0", screen_id, screen_ip);
                 
                    
                     add_media_progress( 100, multimedia_id, screen_id,program_id);
@@ -818,9 +826,9 @@ public class ScreenController {
         } else {
             System.out.println("NO FILES TO UPLOAD ON SCREEN. TRYY SEND MESSAGE");
             System.out.println("FINISH");
-            return "NO FILES TO UPLOAD ON SCREEN. TRYY SEND MESSAGE";
+            return "no_files_in_media";
         }
-        return "IMAGE LOADED TO SCREEN";
+        return "image_loading_on_screen";
     }
 
     private String executeCommand(String command) {
@@ -1239,7 +1247,7 @@ public class ScreenController {
             connection.disconnect();
             e.printStackTrace();
             connectionFlag=false;
-            return "error";
+            return "error_service";
         }
     }
 
