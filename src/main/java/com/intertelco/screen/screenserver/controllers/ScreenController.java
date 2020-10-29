@@ -88,15 +88,44 @@ public class ScreenController {
         if (screen_params.getBoolean("is_server_ip")) {
             String url="http://"+screen_ip+":"+Integer.toString(screen_params.getInt("service_port"))+
             "/rest/screens/turn_on_screen/"+remote_screen_id+"/0";
+            String response1=ServiceRestFull(url);
             System.out.println(url);
-            System.out.println(ServiceRestFull(url));
+            System.out.println(response1);
+            return response1;
         } else {
-            TURN_ON_SCREEN(screen_ip,screen_id);
-            System.out.println("TURN ON");
+            String response1=TURN_ON_SCREEN(screen_ip,screen_id);
+            System.out.println(response1);
+            return response1;
         }
 
-        return "ON";
     }
+
+
+
+    @CrossOrigin
+    @GetMapping("/turn_off_screen/{screen_id}/{remote_screen_id}")
+    public String doTurnOffScreen(@PathVariable int screen_id,@PathVariable int remote_screen_id) throws Exception {
+       
+        JSONObject screen_params = get_screen_params(screen_id,"5432",false);
+        if(screen_params.getInt("estado")==1){
+            return "Screen is bussy";
+        }
+
+        String screen_ip=screen_params.getString("ip");
+        if (screen_params.getBoolean("is_server_ip")) {
+            String url="http://"+screen_ip+":"+Integer.toString(screen_params.getInt("service_port"))+
+            "/rest/screens/turn_off_screen/"+remote_screen_id+"/0";
+            String response1=ServiceRestFull(url);
+            System.out.println(url);
+            System.out.println(response1);
+            return response1;
+        } else {
+            String response1=TURN_OFF_SCREEN(screen_ip,screen_id);
+            System.out.println(response1);
+            return response1;
+        }
+    }
+
     @CrossOrigin
     @GetMapping("/clear_screen/{screen_id}/{remote_screen_id}")
     public String clear_screen(@PathVariable int screen_id,@PathVariable int remote_screen_id) throws Exception {
@@ -145,29 +174,6 @@ public class ScreenController {
       }
     }
 
-    @CrossOrigin
-    @GetMapping("/turn_off_screen/{screen_id}/{remote_screen_id}")
-    public String doTurnOffScreen(@PathVariable int screen_id,@PathVariable int remote_screen_id) throws Exception {
-       
-        JSONObject screen_params = get_screen_params(screen_id,"5432",false);
-        if(screen_params.getInt("estado")==1){
-            return "Screen is bussy";
-        }
-
-        String screen_ip=screen_params.getString("ip");
-        if (screen_params.getBoolean("is_server_ip")) {
-            String url="http://"+screen_ip+":"+Integer.toString(screen_params.getInt("service_port"))+
-            "/rest/screens/turn_off_screen/"+remote_screen_id+"/0";
-            String response1=ServiceRestFull(url);
-            System.out.println(url);
-            System.out.println(response1);
-            return response1;
-        } else {
-            String response1=TURN_OFF_SCREEN(screen_ip,screen_id);
-            System.out.println(response1);
-            return response1;
-        }
-    }
     @CrossOrigin
     @GetMapping("/modify_server_screen_ports/{screen_id}/{server_port}/{db_port}")
     public String modify_server_screen_ports(@PathVariable int screen_id, @PathVariable String screen_ip, 
