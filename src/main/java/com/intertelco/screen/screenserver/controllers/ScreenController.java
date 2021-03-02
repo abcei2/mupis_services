@@ -100,8 +100,6 @@ public class ScreenController {
 
     }
 
-
-
     @CrossOrigin
     @GetMapping("/turn_off_screen/{screen_id}/{remote_screen_id}")
     public String doTurnOffScreen(@PathVariable int screen_id,@PathVariable int remote_screen_id) throws Exception {
@@ -174,177 +172,6 @@ public class ScreenController {
       }
     }
 
-    @CrossOrigin
-    @GetMapping("/modify_server_screen_ports/{screen_id}/{server_port}/{db_port}")
-    public String modify_server_screen_ports(@PathVariable int screen_id, @PathVariable String screen_ip, 
-            @PathVariable int server_port,@PathVariable int db_port  ) throws Exception {
-            
-        Connection c = null;
-        Statement stmt = null;
-        c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/pantallas","postgres", "postgres");
-        c.setAutoCommit(false);
-
-        stmt = c.createStatement();
-        String sql = "UPDATE pantalla set db_port="+db_port+", server_port="+server_port+" where id="+screen_id;
-        stmt.executeUpdate(sql);
-        c.commit();
-        stmt.close();
-        c.close();
-    
-        return "Agregada";
-    }
-
-    @CrossOrigin
-    @GetMapping("/add_screen/{screen_id}/{new_screen_ip}/{num_programas}/{is_server_ip}/{tipo_pantalla}/{add_to_remotely}/{remote_screen_id}/{direccion}")
-    public int add_screen(@PathVariable int screen_id, @PathVariable String new_screen_ip, @PathVariable int num_programas,
-        @PathVariable int tipo_pantalla,@PathVariable Boolean is_server_ip, @PathVariable Boolean add_to_remotely,
-        @PathVariable int remote_screen_id, @PathVariable String direccion) throws Exception {
-        //add_to_remoteyl, true add screen remotely, false add locally.
-        if (add_to_remotely) {
-
-            JSONObject screen_params = get_screen_params(screen_id,"5432",false);
-            String screen_server_ip=screen_params.getString("ip");
-
-            String url="http://"+screen_server_ip+":"+Integer.toString(screen_params.getInt("service_port"))+
-            "/rest/screens/add_screen/0/"+new_screen_ip+"/"+num_programas+"/false/"+tipo_pantalla+"/false/0/"+direccion;
-
-            System.out.println(url);
-            System.out.println(ServiceRestFull(url));
-            return 0;
-        }
-        else{
-            //******** ESCRIBIR DATOS *****************
-            Connection c = null;
-            Statement stmt = null;
-            c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/pantallas","postgres", "postgres");
-            c.setAutoCommit(false);
-    
-            
-            stmt = c.createStatement();
-            
-            String sql = "INSERT INTO pantalla (ip, db_port, service_port, is_server_ip, tipo_pantalla, direccion, estado,is_on, last_access) "
-                + "VALUES ('"+new_screen_ip+"',0,0,"+is_server_ip+","+tipo_pantalla+",'"+direccion+"' "
-                +", 0,0, CURRENT_TIMESTAMP) returning id;";
-            ResultSet rs = stmt.executeQuery(sql);
-            int NewScreenId=0;
-            if (rs.next()) {
-                NewScreenId=rs.getInt("id");
-
-            }
-            System.out.println(NewScreenId);
-
-         
-            for (int i=0; i<num_programas; i++) {
-                sql = "INSERT INTO pantalla_multimedia (id_multimedia, id_pantalla, add_date, id_programa, progress) "
-                        + "VALUES (0,'" + NewScreenId+ "',CURRENT_TIMESTAMP, '"+i+"',0);";
-                stmt.executeUpdate(sql);
-            }
-            stmt.close();
-            c.commit();
-            c.close();
-        
-            return NewScreenId;
-        }
-
-    }
-
-    @CrossOrigin
-    @GetMapping("/delete_screen/{screen_id}/{remote_screen_id}")
-    public String delete_screen(@PathVariable int screen_id,@PathVariable int remote_screen_id) throws Exception {
-        JSONObject screen_params = get_screen_params(screen_id,"5432",false);
-        if(screen_params.getInt("estado")==1){
-            return "Screen is bussy";
-        }
-
-        String screen_ip=screen_params.getString("ip");
-        if (screen_params.getBoolean("is_server_ip")) {
-
-            String url="http://"+screen_ip+":"+Integer.toString(screen_params.getInt("service_port"))+
-            "/rest/screens/delete_screen/"+remote_screen_id+"/0";
-
-            System.out.println(url);
-            System.out.println(ServiceRestFull(url));
-            return "Remotely screen delete";
-        }
-        else{
-            update("eliminar", "ok", screen_id, screen_ip);
-            return "Localy screen delete";
-        }
-
-    }
-
-    @CrossOrigin
-    @GetMapping("/change_num_programs/{screen_id}/{num_programas}/{remote_screen_id}")
-    public String change_num_programs(@PathVariable int screen_id, @PathVariable int num_programas,@PathVariable int remote_screen_id) throws Exception {
-
-        JSONObject screen_params = get_screen_params(screen_id,"5432",false);
-        if(screen_params.getInt("estado")==1){
-            return "Screen is bussy";
-        }
-
-
-        String screen_ip=screen_params.getString("ip");  
-        if (screen_params.getBoolean("is_server_ip")) {
-            String url="http://"+screen_ip+":"+Integer.toString(screen_params.getInt("service_port"))+
-            "/rest/screens/change_num_programs/"+remote_screen_id+"/"+num_programas+"/0";
-
-            System.out.println(url);
-            System.out.println(ServiceRestFull(url));
-            return "BRIGHTNESS CHANGE";
-        }
-        else{
-            //BORRAR TODOS LOS PROGRAMAS DE LA PANTALLA
-            Bx6GEnv.initial("log.properties", 30000);
-            Bx6GScreenClient screen = new Bx6GScreenClient("MyScreen", new Bx6Q());
-            if (!screen.connect(screen_ip, 5005)) {
-                
-                System.out.println("\n\n\nconnect failed\n\n\n");
-            } else {
-                System.out.println("\n\n\nconnect stablished\n\n\n");
-
-                System.out.println(screen.readProgramList());
-                screen.deletePrograms();
-                System.out.println(screen.readProgramList());
-                screen.disconnect();
-                Connection c = null;
-                Statement stmt = null;
-
-                try {
-                    Class.forName("org.postgresql.Driver");
-                    c = DriverManager
-                            .getConnection("jdbc:postgresql://localhost:5432/pantallas",
-                                    "postgres", "postgres");
-                    c.setAutoCommit(false);
-                    stmt = c.createStatement();
-
-                    String sql = "DELETE FROM pantalla_multimedia where id_pantalla= " + screen_id + ";";
-                    stmt.executeUpdate(sql);
-
-                    for (int i = 0; i < num_programas; i++) {
-
-                        sql = "INSERT INTO pantalla_multimedia (id_pantalla, id_multimedia, add_date, id_programa) "
-                                + "VALUES ('" + screen_id + "',0,CURRENT_TIMESTAMP, '" + i + "');";
-                        stmt.executeUpdate(sql);
-                    }
-                    stmt.close();
-                    c.commit();
-                    c.close();
-
-                    
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    System.err.println(e.getClass().getName() + ": " + e.getMessage());
-                    System.exit(0);
-                }
-            }
-
-            
-        }
-        
-
-        return "Modificada";
-    }
 
     @CrossOrigin
     @GetMapping("/change_brightness/{screen_id}/{value}/{remote_screen_id}")
@@ -358,9 +185,10 @@ public class ScreenController {
             }
 
 
-            String screen_ip=screen_params.getString("ip");  
-            if (screen_params.getString("ip").equals("localhost")) {
-                String url="http://localhost:"+Integer.toString(screen_params.getInt("service_port"))+
+            String screen_ip=screen_params.getString("ip");
+            if (screen_params.getBoolean("is_server_ip")) {
+           
+                String url="http://"+screen_ip+":"+Integer.toString(screen_params.getInt("service_port"))+
                             "/rest/screens/change_brightness/"+remote_screen_id+"/"+value+"/0";
                 
                 System.out.println(url);
@@ -490,6 +318,7 @@ public class ScreenController {
         }
         
     }
+
     @CrossOrigin
     @GetMapping("/send_image_to_remote/{multimedia_id}/{screen_id}")
     public String SendToRemote(@PathVariable int multimedia_id,@PathVariable int screen_id) throws Exception {
@@ -536,13 +365,7 @@ public class ScreenController {
             JSONArray remote_media = remote_screen_param.getJSONArray("media");
             System.out.println(remote_media.length());
 
-            if(remote_media.length()==0){
-                System.out.println();
-                String aux_url="http://localhost:"+Integer.toString(screen_params.getInt("service_port"))+"/rest/images/uploadFile/"+Integer.toString(multimedia_id);
-                System.out.println(aux_url);
-                sendPost(aux_url,pathImage + "/" + nameImage);
-                System.out.println("THERE ISN'T ANY MEDIA ON SCREEN, IMAGE UPLOADED...");
-            }
+           
             Boolean already_uploaded=false;
             for (int kk=0 ; kk<remote_media.length() ; kk++) {
                 String media_name=remote_media.getJSONObject(kk).getString("multimedia_name");
@@ -617,14 +440,8 @@ public class ScreenController {
             JSONArray remote_media = remote_screen_param.getJSONArray("media");
             System.out.println(remote_media.length());
 
-            if(remote_media.length()==0){
-                System.out.println();
-                String aux_url="http://localhost:"+Integer.toString(screen_params.getInt("service_port"))+"/rest/images/uploadFile/"+Integer.toString(multimedia_id);
-                System.out.println(aux_url);
-                sendPost(aux_url,pathImage + "/" + nameImage);
-                System.out.println("THERE ISN'T ANY MEDIA ON SCREEN, IMAGE UPLOADED...");
-            }
             Boolean already_uploaded=false;
+           
             for (int kk=0 ; kk<remote_media.length() ; kk++) {
                 String media_name=remote_media.getJSONObject(kk).getString("multimedia_name");
                 int media_id=remote_media.getJSONObject(kk).getInt("multimedia_id");
@@ -636,7 +453,7 @@ public class ScreenController {
             
             if(!already_uploaded)
             {
-                String aux_url="http://localhost:"+Integer.toString(screen_params.getInt("service_port"))+"/rest/images/uploadFile/"+Integer.toString(multimedia_id);
+                String aux_url="http://"+screen_ip+":"+Integer.toString(screen_params.getInt("service_port"))+"/rest/images/uploadFile/"+Integer.toString(multimedia_id);
                 System.out.println(aux_url);
                 sendPost(aux_url,pathImage + "/" + nameImage);
                 System.out.println("UPLOADED IMAGE");
@@ -649,7 +466,7 @@ public class ScreenController {
             //EL SERVICIO ES EXACTAMENTE IGUAL A ESTE SOLO QUE EN SU BASE DE DATOS LAS IP
             //SON DIFERENTE A LOCALHOST Y EL remote_screen_id pasa ser el screen_id EL ID DE LA CARA Q VAMOS A CAMBIAR
           
-            String url="http://localhost:"+Integer.toString(screen_params.getInt("service_port"))+
+            String url="http://"+screen_ip+":"+Integer.toString(screen_params.getInt("service_port"))+
             "/rest/screens/send/"+nameImage+"/"+image_duration+"/"+type+"/"+program_id+
             "/"+remote_screen_id+"/"+multimedia_id+"/-1";
             String response1=ServiceRestFull(url); 
@@ -948,7 +765,7 @@ public class ScreenController {
             String sql="select pantalla.estado as estado, "
             + "pantalla.ip as ip, pantalla.db_port as db_port, pantalla.service_port as service_port, "
             + "pantalla.is_server_ip as is_server_ip, "
-            + "pantalla.tipo_pantalla as tipo_pantalla,tipo, ancho, alto from "
+            + "pantalla.tipo_pantalla as tipo_pantalla,tipo, pantalla.ancho, pantalla.alto from "
             + "tipo_pantalla inner join pantalla on tipo_pantalla.id=pantalla.tipo_pantalla where pantalla.id="+screen_id+";";
             ResultSet rs = stmt.executeQuery(sql);
             System.out.println(sql);
