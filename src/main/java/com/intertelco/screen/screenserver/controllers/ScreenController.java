@@ -73,7 +73,30 @@ public class ScreenController {
     ////////////////////////////////////
     ////// CONTROL SCREEN
     ////////////////////////////////////
+    @CrossOrigin
+    @GetMapping("/delete_screen/{screen_id}/{remote_screen_id}")
+    public String delete_screen(@PathVariable int screen_id,@PathVariable int remote_screen_id) throws Exception {
+        JSONObject screen_params = get_screen_params(screen_id,"5432",false);
+        if(screen_params.getInt("estado")==1){
+            return "Screen is bussy";
+        }
 
+        String screen_ip=screen_params.getString("ip");
+        if (screen_params.getBoolean("is_server_ip")) {
+
+            String url="http://"+screen_ip+":"+Integer.toString(screen_params.getInt("service_port"))+
+            "/rest/screens/delete_screen/"+remote_screen_id+"/0";
+
+            System.out.println(url);
+            System.out.println(ServiceRestFull(url));
+            return "Remotely screen delete";
+        }
+        else{
+            update("eliminar", "ok", screen_id, screen_ip);
+            return "Localy screen delete";
+        }
+
+    }
 
     @CrossOrigin
     @GetMapping("/turn_on_screen/{screen_id}/{remote_screen_id}")
@@ -171,7 +194,6 @@ public class ScreenController {
         }  
       }
     }
-
 
     @CrossOrigin
     @GetMapping("/change_brightness/{screen_id}/{value}/{remote_screen_id}")
@@ -478,24 +500,22 @@ public class ScreenController {
         else{
 
             if(screen_params.getInt("alto")>0 && screen_params.getInt("ancho")>0){
-                if(remote_screen_id==-1)
-                    update("actualizar", "estado=1", -1, screen_params.getString("ip"));
-                else   
-                    update("actualizar", "estado=1", -1, screen_params.getString("ip"));         
+             
+                update("actualizar", "estado=1", -1, screen_params.getString("ip"));         
                     // update("actualizar", "estado=1", screen_id, screen_params.getString("ip"));
                 String To_Return = "OK";
-                System.out.println(executeCommand("rm -r " + pathImage + "/TEMP"));
-                System.out.println(executeCommand("mkdir " + pathImage + "TEMP"));
+                System.out.println(executeCommand("rm -r " + pathImage + "/TEMP"+screen_id.toString()));
+                System.out.println(executeCommand("mkdir " + pathImage + "/TEMP"+screen_id.toString()));
                 if (type.equals("VIDEO")) {
                     image_duration = 1;
-                    System.out.println("ffmpeg -i " + pathImage + "/" + nameImage + " -vf fps=20 -ss 00:00:00 -t 00:00:10 -start_number 0 " + pathImage + "/TEMP/FRAME%d.jpg");
-                    System.out.println(executeCommand("ffmpeg -i " + pathImage + "/" + nameImage + " -vf fps=20 -ss 00:00:00 -t 00:00:10 -start_number 0 " + pathImage + "/TEMP/FRAME%d.jpg"));
+                    System.out.println("ffmpeg -i " + pathImage + "/" + nameImage + " -vf fps=20 -ss 00:00:00 -t 00:00:10 -start_number 0 " + pathImage + "/TEMP"+screen_id.toString()+"/FRAME%d.jpg");
+                    System.out.println(executeCommand("ffmpeg -i " + pathImage + "/" + nameImage + " -vf fps=20 -ss 00:00:00 -t 00:00:10 -start_number 0 " + pathImage + "/TEMP"+screen_id.toString()+"/FRAME%d.jpg"));
                     To_Return=PUTSCREEN(remote_screen_id,image_duration, new int[]{1}, screen_ip, program_id, nameImage,screen_params, screen_id, multimedia_id);
                 }
                 else{
 
-                    System.out.println("convert -coalesce " + pathImage + "/" + nameImage + " " + pathImage + "/TEMP/FRAME%d.jpg");
-                    System.out.println(executeCommand("convert -coalesce " + pathImage + "/" + nameImage + " " + pathImage + "/TEMP/FRAME%d.jpg"));
+                    System.out.println("convert -coalesce " + pathImage + "/" + nameImage + " " + pathImage + "/TEMP"+screen_id.toString()+"/FRAME%d.jpg");
+                    System.out.println(executeCommand("convert -coalesce " + pathImage + "/" + nameImage + " " + pathImage + "/TEMP"+screen_id.toString()+"/FRAME%d.jpg"));
                     int[] timeFrames=new int[]{1};
 
                     if (type.equals("IMAGES")) 
@@ -529,8 +549,8 @@ public class ScreenController {
     private String PUTSCREEN(int remote_screen_id, int image_duration, int[] timeFrames, String screen_ip, int program_id, String nameImage, JSONObject shape, int screen_id, int multimedia_id) throws Exception {
 
         int program = program_id;
-        int count = new File(pathImage + "/TEMP/").list().length;
-        System.out.println( new File(pathImage + "/TEMP/").list().length);
+        int count = new File(pathImage + "/TEMP"+screen_id.toString()+"/").list().length;
+        System.out.println( new File(pathImage + "/TEMP"+screen_id.toString()+"/").list().length);
         
         if (count > 0) {
             Bx6GEnv.initial("log.properties", 30000);
@@ -541,11 +561,7 @@ public class ScreenController {
             if (!screen.connect(screen_ip, 5005)) {
                 System.out.println("\n\n\nconnect failed\n\n\n");
 
-                if(remote_screen_id==-1)
-                    update("actualizar", "estado=0", -1, screen_ip);
-                else            
-                    update("actualizar", "estado=0", -1, screen_ip);
-                // update("actualizar", "estado=0", -1, screen_ip);
+                update("actualizar", "estado=0", -1, screen_ip);
 
                 return "connect failed";
             } else {
@@ -570,11 +586,11 @@ public class ScreenController {
             TextCaptionBxArea dAreaContent = new TextCaptionBxArea(0, 0, widthP, heightP, screen.getProfile());
          
             if (count == 1) {
-               ImageFileBxPage aux = new ImageFileBxPage(pathImage + "/TEMP/FRAME" + String.valueOf(0) + ".jpg");
+               ImageFileBxPage aux = new ImageFileBxPage(pathImage + "/TEMP"+screen_id.toString()+"/FRAME" + String.valueOf(0) + ".jpg");
                dAreaContent.addPage(aux);
             }else{
                 for (int i = 0; i < count; i++) { // 4FRAME
-                    ImageFileBxPage aux = new ImageFileBxPage(pathImage + "/TEMP/FRAME" + String.valueOf(i) + ".jpg");
+                    ImageFileBxPage aux = new ImageFileBxPage(pathImage + "/TEMP"+screen_id.toString()+"/FRAME" + String.valueOf(i) + ".jpg");
                     if(image_duration==0)
                         aux.setStayTime(timeFrames[i]);
                     else{
@@ -590,6 +606,7 @@ public class ScreenController {
             screen.writeProgramAsync(p, new BxFileWriterListener<Bx6GScreen>() {
                 @Override
                 public void fileWriting(Bx6GScreen bx6GScreen, String s, int i) {
+                    System.out.println("Writing file "+s+" "+i.toString())
 
                 }
 
@@ -602,7 +619,7 @@ public class ScreenController {
                 public void progressChanged(Bx6GScreen bx6GScreen, String s, int i, int i1) {
 
                     finish[0] = i * 100 / i1;
-                    //update("actualizar", "progress=" + Integer.toString(finish[0]), screen_id, screen_ip);
+              
                     add_media_progress( finish[0], multimedia_id, screen_id,program_id);
                 }
 
@@ -613,12 +630,11 @@ public class ScreenController {
                 
                     System.out.println("CANCELED!");
                     screen.disconnect();
-                    ///PONBER VARIABLE DE BASE DE DATOS ESTADO=0  DESOCUPADAAA
-                   
-                    if(remote_screen_id==-1)
-                        update("actualizar", "estado=0", -1, screen_ip);
-                    else            
-                        update("actualizar", "estado=0", -1, screen_ip);
+                    ///PONBER VARIABLE DE BASE DE DATOS ESTADO=0  DESOCUPADAAA                 
+                    
+                    update("actualizar", "estado=0", -1, screen_ip);
+                        
+                    System.out.println(executeCommand("rm -r " + pathImage + "/TEMP"+screen_id.toString()));
                     // update("actualizar", "estado=0", screen_id, screen_ip);
                 }
 
@@ -630,15 +646,11 @@ public class ScreenController {
                     screen.disconnect();
 
                     ///PONBER VARIABLE DE BASE DE DATOS ESTADO=0  DESOCUPADAAA
-                    if(remote_screen_id==-1)
-                        update("actualizar", "estado=0", -1, screen_ip);
-                    else            
-                        update("actualizar", "estado=0", -1, screen_ip);
-                        
-                    // update("actualizar", "estado=0", screen_id, screen_ip);
-                
+                    update("actualizar", "estado=0", -1, screen_ip);
                    
                     add_media_progress( 100, multimedia_id, screen_id,program_id);
+
+                    System.out.println(executeCommand("rm -r " + pathImage + "/TEMP"+screen_id.toString()));
                     System.out.println("FINISH");
                 }
                 
@@ -708,49 +720,7 @@ public class ScreenController {
         }
         return timeLength;
     }
-    public JSONObject get_screen_media(int screen_id,String postgres_port) throws JSONException, SQLException {
 
-        Connection c = null;
-        Statement stmt = null;
-        try {
-            c = DriverManager
-                    .getConnection("jdbc:postgresql://localhost:"+postgres_port+"/pantallas",
-                            "postgres", "postgres");
-            c.setAutoCommit(false);
-
-            stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery("select name as multimedia_name, type as multimedia_type from multimedia;");
-
-            if (rs.next()) {
-                JSONObject json = new JSONObject();
-
-                json.put("multimedia_name", rs.getInt("multimedia_name"));
-                json.put("multimedia_type", rs.getInt("multimedia_type"));
-
-                rs.close();
-                stmt.close();
-                c.close();
-                return(json);
-            }else{
-                JSONObject json = new JSONObject();
-                json.put("message","there's no media on screen");
-                rs.close();
-                stmt.close();
-                c.close();
-                return(json);
-            }
-
-        } catch (PSQLException e) {
-            e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
-            JSONObject json = new JSONObject();
-            json.put("ERROR",e.getClass().getName() + ": " + e.getMessage());
-
-            return(json);
-        }
-    }
-    
     public JSONObject get_screen_params(int screen_id,String postgres_port, Boolean get_media) throws JSONException, SQLException {
 
         Connection c = null;
@@ -847,33 +817,7 @@ public class ScreenController {
         }
 
     }
-    public void agregar_multimedia(String media_name, String media_type){
-        Connection c = null;
-        Statement stmt = null;
-        try
-        {
-            Class.forName("org.postgresql.Driver");
-            c = DriverManager
-                    .getConnection("jdbc:postgresql://localhost:5432/pantallas",
-                            "postgres", "postgres");
-            c.setAutoCommit(false);
-
-            stmt = c.createStatement();
-            String sql = "insert into multimedia (name,type) values('"+media_name+"','"+media_type+"');";
-            
-                
-            stmt.executeUpdate(sql);
-            
-            stmt.close();
-            c.commit();
-            c.close();
-        }catch (Exception e) {
-            e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
-        }
-
-    }
+ 
     public void multimedia_actualizada(String screen_id,String program_id,String multimedia_id) {
 
         Connection c = null;
@@ -1102,7 +1046,6 @@ public class ScreenController {
 			} catch (IOException e) {}
 		}
     }
-
 
     public static String convertStreamToString(java.io.InputStream is) {
         java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
