@@ -504,18 +504,18 @@ public class ScreenController {
                 update("actualizar", "estado=1", -1, screen_params.getString("ip"));         
                     // update("actualizar", "estado=1", screen_id, screen_params.getString("ip"));
                 String To_Return = "OK";
-                System.out.println(executeCommand("rm -r " + pathImage + "/TEMP"+screen_id.toString()));
-                System.out.println(executeCommand("mkdir " + pathImage + "/TEMP"+screen_id.toString()));
+                System.out.println(executeCommand("rm -r " + pathImage + "/TEMP"+Integer.toString(screen_id)));
+                System.out.println(executeCommand("mkdir " + pathImage + "/TEMP"+Integer.toString(screen_id)));
                 if (type.equals("VIDEO")) {
                     image_duration = 1;
-                    System.out.println("ffmpeg -i " + pathImage + "/" + nameImage + " -vf fps=20 -ss 00:00:00 -t 00:00:10 -start_number 0 " + pathImage + "/TEMP"+screen_id.toString()+"/FRAME%d.jpg");
-                    System.out.println(executeCommand("ffmpeg -i " + pathImage + "/" + nameImage + " -vf fps=20 -ss 00:00:00 -t 00:00:10 -start_number 0 " + pathImage + "/TEMP"+screen_id.toString()+"/FRAME%d.jpg"));
+                    System.out.println("ffmpeg -i " + pathImage + "/" + nameImage + " -vf fps=20 -ss 00:00:00 -t 00:00:10 -start_number 0 " + pathImage + "/TEMP"+Integer.toString(screen_id)+"/FRAME%d.jpg");
+                    System.out.println(executeCommand("ffmpeg -i " + pathImage + "/" + nameImage + " -vf fps=20 -ss 00:00:00 -t 00:00:10 -start_number 0 " + pathImage + "/TEMP"+Integer.toString(screen_id)+"/FRAME%d.jpg"));
                     To_Return=PUTSCREEN(remote_screen_id,image_duration, new int[]{1}, screen_ip, program_id, nameImage,screen_params, screen_id, multimedia_id);
                 }
                 else{
 
-                    System.out.println("convert -coalesce " + pathImage + "/" + nameImage + " " + pathImage + "/TEMP"+screen_id.toString()+"/FRAME%d.jpg");
-                    System.out.println(executeCommand("convert -coalesce " + pathImage + "/" + nameImage + " " + pathImage + "/TEMP"+screen_id.toString()+"/FRAME%d.jpg"));
+                    System.out.println("convert -coalesce " + pathImage + "/" + nameImage + " " + pathImage + "/TEMP"+Integer.toString(screen_id)+"/FRAME%d.jpg");
+                    System.out.println(executeCommand("convert -coalesce " + pathImage + "/" + nameImage + " " + pathImage + "/TEMP"+Integer.toString(screen_id)+"/FRAME%d.jpg"));
                     int[] timeFrames=new int[]{1};
 
                     if (type.equals("IMAGES")) 
@@ -549,8 +549,8 @@ public class ScreenController {
     private String PUTSCREEN(int remote_screen_id, int image_duration, int[] timeFrames, String screen_ip, int program_id, String nameImage, JSONObject shape, int screen_id, int multimedia_id) throws Exception {
 
         int program = program_id;
-        int count = new File(pathImage + "/TEMP"+screen_id.toString()+"/").list().length;
-        System.out.println( new File(pathImage + "/TEMP"+screen_id.toString()+"/").list().length);
+        int count = new File(pathImage + "/TEMP"+Integer.toString(screen_id)+"/").list().length;
+        System.out.println( new File(pathImage + "/TEMP"+Integer.toString(screen_id)+"/").list().length);
         
         if (count > 0) {
             Bx6GEnv.initial("log.properties", 30000);
@@ -586,11 +586,11 @@ public class ScreenController {
             TextCaptionBxArea dAreaContent = new TextCaptionBxArea(0, 0, widthP, heightP, screen.getProfile());
          
             if (count == 1) {
-               ImageFileBxPage aux = new ImageFileBxPage(pathImage + "/TEMP"+screen_id.toString()+"/FRAME" + String.valueOf(0) + ".jpg");
+               ImageFileBxPage aux = new ImageFileBxPage(pathImage + "/TEMP"+Integer.toString(screen_id)+"/FRAME" + String.valueOf(0) + ".jpg");
                dAreaContent.addPage(aux);
             }else{
                 for (int i = 0; i < count; i++) { // 4FRAME
-                    ImageFileBxPage aux = new ImageFileBxPage(pathImage + "/TEMP"+screen_id.toString()+"/FRAME" + String.valueOf(i) + ".jpg");
+                    ImageFileBxPage aux = new ImageFileBxPage(pathImage + "/TEMP"+Integer.toString(screen_id)+"/FRAME" + String.valueOf(i) + ".jpg");
                     if(image_duration==0)
                         aux.setStayTime(timeFrames[i]);
                     else{
@@ -634,7 +634,7 @@ public class ScreenController {
                     
                     update("actualizar", "estado=0", -1, screen_ip);
                         
-                    System.out.println(executeCommand("rm -r " + pathImage + "/TEMP"+screen_id.toString()));
+                    System.out.println(executeCommand("rm -r " + pathImage + "/TEMP"+Integer.toString(screen_id)));
                     // update("actualizar", "estado=0", screen_id, screen_ip);
                 }
 
@@ -650,7 +650,7 @@ public class ScreenController {
                    
                     add_media_progress( 100, multimedia_id, screen_id,program_id);
 
-                    System.out.println(executeCommand("rm -r " + pathImage + "/TEMP"+screen_id.toString()));
+                    System.out.println(executeCommand("rm -r " + pathImage + "/TEMP"+Integer.toString(screen_id)));
                     System.out.println("FINISH");
                 }
                 
