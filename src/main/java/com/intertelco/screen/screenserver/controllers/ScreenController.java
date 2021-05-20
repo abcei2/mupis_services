@@ -606,7 +606,7 @@ public class ScreenController {
             screen.writeProgramAsync(p, new BxFileWriterListener<Bx6GScreen>() {
                 @Override
                 public void fileWriting(Bx6GScreen bx6GScreen, String s, int i) {
-                    System.out.println("Writing file "+s+" "+i.toString())
+                    System.out.println("Writing file "+s+" "+Integer.toString(i));
 
                 }
 
