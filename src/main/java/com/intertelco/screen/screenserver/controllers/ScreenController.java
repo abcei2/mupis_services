@@ -54,12 +54,16 @@ import onbon.bx06.file.BxFileWriterListener;
 import onbon.bx06.file.ProgramBxFile;
 import onbon.bx06.series.Bx6Q;
 
+
+
 @RestController
 @RequestMapping("/rest/screens")
 public class ScreenController {
 
     private static String state = "vacio";
-    String port_and_ip="localhost:8082";
+    private String UserDB="postgres";
+    private String UserDB="Screen2021";
+
 
     @Autowired
     private ScreenRepository screenRepository;
@@ -69,6 +73,10 @@ public class ScreenController {
 
     @Value("${file.upload-dir}")
     private String pathImage;
+
+
+
+
     
     ////////////////////////////////////
     ////// CONTROL SCREEN
@@ -236,7 +244,7 @@ public class ScreenController {
                         Class.forName("org.postgresql.Driver");
                         c = DriverManager
                                 .getConnection("jdbc:postgresql://localhost:5432/pantallas",
-                                        "postgres", "postgres");
+                            UserDB, PassDB);
                         c.setAutoCommit(false);
             
                         stmt = c.createStatement();
@@ -280,7 +288,7 @@ public class ScreenController {
                 Class.forName("org.postgresql.Driver");
                 c = DriverManager
                         .getConnection("jdbc:postgresql://localhost:5432/pantallas",
-                                "postgres", "postgres");
+                        UserDB, PassDB);
                 c.setAutoCommit(false);
     
                 stmt = c.createStatement();
@@ -319,7 +327,7 @@ public class ScreenController {
                 Class.forName("org.postgresql.Driver");
                 c = DriverManager
                         .getConnection("jdbc:postgresql://localhost:5432/pantallas",
-                                "postgres", "postgres");
+                            UserDB, PassDB);
                 c.setAutoCommit(false);
     
                 stmt = c.createStatement();
@@ -353,7 +361,7 @@ public class ScreenController {
             Class.forName("org.postgresql.Driver");
             c = DriverManager
                     .getConnection("jdbc:postgresql://localhost:5432/pantallas",
-                            "postgres", "postgres");
+                            UserDB, PassDB);
             c.setAutoCommit(false);
 
             stmt = c.createStatement();
@@ -728,7 +736,7 @@ public class ScreenController {
         try {
             c = DriverManager
                     .getConnection("jdbc:postgresql://localhost:"+postgres_port+"/pantallas",
-                            "postgres", "postgres");
+                            UserDB, PassDB);
             c.setAutoCommit(false);
 
             stmt = c.createStatement();
@@ -800,7 +808,7 @@ public class ScreenController {
             Class.forName("org.postgresql.Driver");
             c = DriverManager
                     .getConnection("jdbc:postgresql://localhost:5432/pantallas",
-                            "postgres", "postgres");
+                            UserDB, PassDB);
             c.setAutoCommit(false);
 
             stmt = c.createStatement();
@@ -826,7 +834,7 @@ public class ScreenController {
             Class.forName("org.postgresql.Driver");
             c = DriverManager
                     .getConnection("jdbc:postgresql://localhost:5432/pantallas",
-                            "postgres", "postgres");
+                            UserDB, PassDB);
             c.setAutoCommit(false);
 
             stmt = c.createStatement();
@@ -858,7 +866,7 @@ public class ScreenController {
             Class.forName("org.postgresql.Driver");
             c = DriverManager
                     .getConnection("jdbc:postgresql://localhost:5432/pantallas",
-                            "postgres", "postgres");
+                            UserDB, PassDB);
             c.setAutoCommit(false);
             //System.out.println("Opened database successfully");
 
