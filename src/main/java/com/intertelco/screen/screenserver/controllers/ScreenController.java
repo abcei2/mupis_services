@@ -61,8 +61,8 @@ import onbon.bx06.series.Bx6Q;
 public class ScreenController {
 
     private static String state = "vacio";
-    private String UserDB="postgres";
-    private String PassDB="Screen2021";
+    private static String UserDB="postgres";
+    private static String PassDB="Screen2021";
 
 
     @Autowired
