@@ -62,7 +62,7 @@ public class ScreenController {
 
     private static String state = "vacio";
     private String UserDB="postgres";
-    private String UserDB="Screen2021";
+    private String PassDB="Screen2021";
 
 
     @Autowired
