@@ -42,6 +42,9 @@ public class ManagerImageController {
 
     private static final Logger logger = LoggerFactory.getLogger(ManagerImageController.class);
 
+    private static String UserDB="postgres";
+    private static String PassDB="Screen2021";
+    
     @Value("${file.upload-dir}")
     private String pathImage;
 
@@ -238,7 +241,7 @@ public class ManagerImageController {
             Class.forName("org.postgresql.Driver");
             c = DriverManager
                     .getConnection("jdbc:postgresql://localhost:5432/pantallas",
-                            "postgres", "postgres");
+                        UserDB, PassDB);
             c.setAutoCommit(false);
             if(get_media_names){
                 stmt = c.createStatement();
